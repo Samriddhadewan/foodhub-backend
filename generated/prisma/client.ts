@@ -42,3 +42,18 @@ export { Prisma }
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model ProviderProfile
+ * 
+ */
+export type ProviderProfile = Prisma.ProviderProfileModel
+/**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
+ * Model Meal
+ * 
+ */
+export type Meal = Prisma.MealModel

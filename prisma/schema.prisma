@@ -19,15 +19,53 @@ enum status {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      Role
-  status    status   @default(ACTIVE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String            @id @default(uuid())
+  email            String            @unique
+  name             String?
+  password         String
+  role             Role
+  status           status            @default(ACTIVE)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  providerProfile ProviderProfile?
+  meals            Meal[]
 
   @@index([status])
   @@map("users")
+}
+
+model ProviderProfile {
+  id              String  @id @default(uuid())
+  userId          String  @unique
+  restaurantName  String
+  restaurantImage String?
+  address         String
+  description     String?
+  isApproved      Boolean @default(true)
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+  image String?
+
+  meals Meal[]
+}
+
+model Meal {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  image       String?
+  isAvailable Boolean @default(true)
+
+  providerId  String
+  categoryId  String
+
+  provider User     @relation(fields: [providerId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
 }
