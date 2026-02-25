@@ -19,17 +19,17 @@ enum status {
 }
 
 model User {
-  id               String            @id @default(uuid())
-  email            String            @unique
-  name             String?
-  password         String
-  role             Role
-  status           status            @default(ACTIVE)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(CUSTOMER)
+  status    status   @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   providerProfile ProviderProfile?
-  meals            Meal[]
+  meals           Meal[]
 
   @@index([status])
   @@map("users")
@@ -48,8 +48,8 @@ model ProviderProfile {
 }
 
 model Category {
-  id    String @id @default(uuid())
-  name  String @unique
+  id    String  @id @default(uuid())
+  name  String  @unique
   image String?
 
   meals Meal[]
@@ -63,8 +63,8 @@ model Meal {
   image       String?
   isAvailable Boolean @default(true)
 
-  providerId  String
-  categoryId  String
+  providerId String
+  categoryId String
 
   provider User     @relation(fields: [providerId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])

@@ -272,7 +272,7 @@ export type UserCreateInput = {
   email: string
   name?: string | null
   password: string
-  role: $Enums.Role
+  role?: $Enums.Role
   status?: $Enums.status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -285,7 +285,7 @@ export type UserUncheckedCreateInput = {
   email: string
   name?: string | null
   password: string
-  role: $Enums.Role
+  role?: $Enums.Role
   status?: $Enums.status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -324,7 +324,7 @@ export type UserCreateManyInput = {
   email: string
   name?: string | null
   password: string
-  role: $Enums.Role
+  role?: $Enums.Role
   status?: $Enums.status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -443,7 +443,7 @@ export type UserCreateWithoutProviderProfileInput = {
   email: string
   name?: string | null
   password: string
-  role: $Enums.Role
+  role?: $Enums.Role
   status?: $Enums.status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -455,7 +455,7 @@ export type UserUncheckedCreateWithoutProviderProfileInput = {
   email: string
   name?: string | null
   password: string
-  role: $Enums.Role
+  role?: $Enums.Role
   status?: $Enums.status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -507,7 +507,7 @@ export type UserCreateWithoutMealsInput = {
   email: string
   name?: string | null
   password: string
-  role: $Enums.Role
+  role?: $Enums.Role
   status?: $Enums.status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -519,7 +519,7 @@ export type UserUncheckedCreateWithoutMealsInput = {
   email: string
   name?: string | null
   password: string
-  role: $Enums.Role
+  role?: $Enums.Role
   status?: $Enums.status
   createdAt?: Date | string
   updatedAt?: Date | string

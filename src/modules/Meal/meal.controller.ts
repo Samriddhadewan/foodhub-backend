@@ -1,11 +1,9 @@
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import { MealService } from "./meal.service";
 import sendResponse from "../../utils/sendResponse";
 
 const createMealIntoDb = async (req: Request, res: Response) => {
   try {
-    console.log("controller",req.user)
-    
     // if user is not found 
     const user =  req.user;
     if (!user) {
@@ -34,7 +32,47 @@ const createMealIntoDb = async (req: Request, res: Response) => {
     });
   }
 };
+const getAllMeals = async (req: Request, res: Response) => {
+  try {
+    const result = await MealService.getAllMeals()
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Meal Retrived Successfully",
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      success: false,
+      message: "Something went wrong",
+      statusCode: 400,
+      data: error,
+    });
+  }
+};
+const getMealById = async(req: Request, res: Response)=> {
+try {
+      const { mealId } = req.params;
+    const result = await MealService.getMealById(mealId as string)
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Meal Retrived Successfully",
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      success: false,
+      message: "Something went wrong",
+      statusCode: 400,
+      data: error,
+    });
+  }
+}
+
 
 export const MealController = {
   createMealIntoDb,
+  getAllMeals,
+  getMealById
 };
