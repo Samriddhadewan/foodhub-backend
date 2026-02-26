@@ -37,3 +37,13 @@ export type Category = Prisma.CategoryModel
  * 
  */
 export type Meal = Prisma.MealModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderItem
+ * 
+ */
+export type OrderItem = Prisma.OrderItemModel

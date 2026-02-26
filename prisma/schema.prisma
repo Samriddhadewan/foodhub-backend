@@ -13,9 +13,18 @@ enum Role {
   ADMIN
 }
 
-enum status {
+enum UserStatus {
   ACTIVE
-  SUSPEND
+  SUSPENDED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  COOKING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
 }
 
 model User {
@@ -24,15 +33,16 @@ model User {
   name      String?
   password  String
   role      Role     @default(CUSTOMER)
-  status    status   @default(ACTIVE)
+  status    UserStatus @default(ACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   providerProfile ProviderProfile?
-  meals           Meal[]
+  meals           Meal[]           @relation("ProviderMeals")
 
   @@index([status])
   @@map("users")
+  orders Order[]
 }
 
 model ProviderProfile {
@@ -45,7 +55,9 @@ model ProviderProfile {
   isApproved      Boolean @default(true)
 
   user User @relation(fields: [userId], references: [id])
+
   @@map("providers")
+  orders Order[]
 }
 
 model Category {
@@ -54,6 +66,10 @@ model Category {
   image String?
 
   meals Meal[]
+}
+
+enum PaymentType {
+  COD
 }
 
 model Meal {
@@ -67,6 +83,36 @@ model Meal {
   providerId String
   categoryId String
 
-  provider User     @relation(fields: [providerId], references: [id])
+  provider User     @relation("ProviderMeals", fields: [providerId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  orderNumber String?     @unique
+  userId      String
+  providerId  String
+  totalAmount Float
+  status      OrderStatus
+  address     String
+  paymentType PaymentType @default(COD)
+
+  user     User            @relation(fields: [userId], references: [id])
+  provider ProviderProfile @relation(fields: [providerId], references: [id])
+  items    OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model OrderItem {
+  id       String @id @default(uuid())
+  orderId  String
+  mealId   String
+  price    Float
+  quantity Int
+
+  order Order @relation(fields: [orderId], references: [id])
+  meal  Meal  @relation(fields: [mealId], references: [id])
 }

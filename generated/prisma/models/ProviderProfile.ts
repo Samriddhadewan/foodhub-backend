@@ -199,6 +199,7 @@ export type ProviderProfileWhereInput = {
   description?: Prisma.StringNullableFilter<"ProviderProfile"> | string | null
   isApproved?: Prisma.BoolFilter<"ProviderProfile"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  orders?: Prisma.OrderListRelationFilter
 }
 
 export type ProviderProfileOrderByWithRelationInput = {
@@ -210,6 +211,7 @@ export type ProviderProfileOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isApproved?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  orders?: Prisma.OrderOrderByRelationAggregateInput
 }
 
 export type ProviderProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -224,6 +226,7 @@ export type ProviderProfileWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"ProviderProfile"> | string | null
   isApproved?: Prisma.BoolFilter<"ProviderProfile"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  orders?: Prisma.OrderListRelationFilter
 }, "id" | "userId">
 
 export type ProviderProfileOrderByWithAggregationInput = {
@@ -260,6 +263,7 @@ export type ProviderProfileCreateInput = {
   description?: string | null
   isApproved?: boolean
   user: Prisma.UserCreateNestedOneWithoutProviderProfileInput
+  orders?: Prisma.OrderCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderProfileUncheckedCreateInput = {
@@ -270,6 +274,7 @@ export type ProviderProfileUncheckedCreateInput = {
   address: string
   description?: string | null
   isApproved?: boolean
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderProfileUpdateInput = {
@@ -280,6 +285,7 @@ export type ProviderProfileUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutProviderProfileNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutProviderNestedInput
 }
 
 export type ProviderProfileUncheckedUpdateInput = {
@@ -290,6 +296,7 @@ export type ProviderProfileUncheckedUpdateInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutProviderNestedInput
 }
 
 export type ProviderProfileCreateManyInput = {
@@ -356,6 +363,11 @@ export type ProviderProfileMinOrderByAggregateInput = {
   isApproved?: Prisma.SortOrder
 }
 
+export type ProviderProfileScalarRelationFilter = {
+  is?: Prisma.ProviderProfileWhereInput
+  isNot?: Prisma.ProviderProfileWhereInput
+}
+
 export type ProviderProfileCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.ProviderProfileCreateWithoutUserInput, Prisma.ProviderProfileUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.ProviderProfileCreateOrConnectWithoutUserInput
@@ -392,6 +404,20 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type ProviderProfileCreateNestedOneWithoutOrdersInput = {
+  create?: Prisma.XOR<Prisma.ProviderProfileCreateWithoutOrdersInput, Prisma.ProviderProfileUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.ProviderProfileCreateOrConnectWithoutOrdersInput
+  connect?: Prisma.ProviderProfileWhereUniqueInput
+}
+
+export type ProviderProfileUpdateOneRequiredWithoutOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.ProviderProfileCreateWithoutOrdersInput, Prisma.ProviderProfileUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.ProviderProfileCreateOrConnectWithoutOrdersInput
+  upsert?: Prisma.ProviderProfileUpsertWithoutOrdersInput
+  connect?: Prisma.ProviderProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProviderProfileUpdateToOneWithWhereWithoutOrdersInput, Prisma.ProviderProfileUpdateWithoutOrdersInput>, Prisma.ProviderProfileUncheckedUpdateWithoutOrdersInput>
+}
+
 export type ProviderProfileCreateWithoutUserInput = {
   id?: string
   restaurantName: string
@@ -399,6 +425,7 @@ export type ProviderProfileCreateWithoutUserInput = {
   address: string
   description?: string | null
   isApproved?: boolean
+  orders?: Prisma.OrderCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderProfileUncheckedCreateWithoutUserInput = {
@@ -408,6 +435,7 @@ export type ProviderProfileUncheckedCreateWithoutUserInput = {
   address: string
   description?: string | null
   isApproved?: boolean
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderProfileCreateOrConnectWithoutUserInput = {
@@ -433,6 +461,7 @@ export type ProviderProfileUpdateWithoutUserInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  orders?: Prisma.OrderUpdateManyWithoutProviderNestedInput
 }
 
 export type ProviderProfileUncheckedUpdateWithoutUserInput = {
@@ -442,8 +471,94 @@ export type ProviderProfileUncheckedUpdateWithoutUserInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutProviderNestedInput
 }
 
+export type ProviderProfileCreateWithoutOrdersInput = {
+  id?: string
+  restaurantName: string
+  restaurantImage?: string | null
+  address: string
+  description?: string | null
+  isApproved?: boolean
+  user: Prisma.UserCreateNestedOneWithoutProviderProfileInput
+}
+
+export type ProviderProfileUncheckedCreateWithoutOrdersInput = {
+  id?: string
+  userId: string
+  restaurantName: string
+  restaurantImage?: string | null
+  address: string
+  description?: string | null
+  isApproved?: boolean
+}
+
+export type ProviderProfileCreateOrConnectWithoutOrdersInput = {
+  where: Prisma.ProviderProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProviderProfileCreateWithoutOrdersInput, Prisma.ProviderProfileUncheckedCreateWithoutOrdersInput>
+}
+
+export type ProviderProfileUpsertWithoutOrdersInput = {
+  update: Prisma.XOR<Prisma.ProviderProfileUpdateWithoutOrdersInput, Prisma.ProviderProfileUncheckedUpdateWithoutOrdersInput>
+  create: Prisma.XOR<Prisma.ProviderProfileCreateWithoutOrdersInput, Prisma.ProviderProfileUncheckedCreateWithoutOrdersInput>
+  where?: Prisma.ProviderProfileWhereInput
+}
+
+export type ProviderProfileUpdateToOneWithWhereWithoutOrdersInput = {
+  where?: Prisma.ProviderProfileWhereInput
+  data: Prisma.XOR<Prisma.ProviderProfileUpdateWithoutOrdersInput, Prisma.ProviderProfileUncheckedUpdateWithoutOrdersInput>
+}
+
+export type ProviderProfileUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  restaurantName?: Prisma.StringFieldUpdateOperationsInput | string
+  restaurantImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  user?: Prisma.UserUpdateOneRequiredWithoutProviderProfileNestedInput
+}
+
+export type ProviderProfileUncheckedUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  restaurantName?: Prisma.StringFieldUpdateOperationsInput | string
+  restaurantImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+
+/**
+ * Count Type ProviderProfileCountOutputType
+ */
+
+export type ProviderProfileCountOutputType = {
+  orders: number
+}
+
+export type ProviderProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  orders?: boolean | ProviderProfileCountOutputTypeCountOrdersArgs
+}
+
+/**
+ * ProviderProfileCountOutputType without action
+ */
+export type ProviderProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProviderProfileCountOutputType
+   */
+  select?: Prisma.ProviderProfileCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProviderProfileCountOutputType without action
+ */
+export type ProviderProfileCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
 
 
 export type ProviderProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -455,6 +570,8 @@ export type ProviderProfileSelect<ExtArgs extends runtime.Types.Extensions.Inter
   description?: boolean
   isApproved?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  orders?: boolean | Prisma.ProviderProfile$ordersArgs<ExtArgs>
+  _count?: boolean | Prisma.ProviderProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["providerProfile"]>
 
 export type ProviderProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -492,6 +609,8 @@ export type ProviderProfileSelectScalar = {
 export type ProviderProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "restaurantName" | "restaurantImage" | "address" | "description" | "isApproved", ExtArgs["result"]["providerProfile"]>
 export type ProviderProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  orders?: boolean | Prisma.ProviderProfile$ordersArgs<ExtArgs>
+  _count?: boolean | Prisma.ProviderProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProviderProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -504,6 +623,7 @@ export type $ProviderProfilePayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "ProviderProfile"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    orders: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -908,6 +1028,7 @@ readonly fields: ProviderProfileFieldRefs;
 export interface Prisma__ProviderProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  orders<T extends Prisma.ProviderProfile$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProviderProfile$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1337,6 +1458,30 @@ export type ProviderProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many ProviderProfiles to delete.
    */
   limit?: number
+}
+
+/**
+ * ProviderProfile.orders
+ */
+export type ProviderProfile$ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
 }
 
 /**
