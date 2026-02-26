@@ -1,7 +1,6 @@
 import { prisma } from "../../lib/prisma";
 
 const createMealIntoDb = async (payload: any, userId: string) => {
-  console.log(payload);
   const user = await prisma.user.findUnique({
     where: {
       id: userId,
@@ -15,7 +14,6 @@ const createMealIntoDb = async (payload: any, userId: string) => {
     data: { ...payload, providerId: userId },
   });
 
-  console.log(result);
 
   return result;
 };
