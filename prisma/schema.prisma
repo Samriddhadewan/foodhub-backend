@@ -38,7 +38,6 @@ model User {
   updatedAt DateTime @updatedAt
 
   providerProfile ProviderProfile?
-  meals           Meal[]           @relation("ProviderMeals")
 
   @@index([status])
   @@map("users")
@@ -58,6 +57,7 @@ model ProviderProfile {
 
   @@map("providers")
   orders Order[]
+  meals Meal[] @relation("ProviderMeals")
 }
 
 model Category {
@@ -83,7 +83,7 @@ model Meal {
   providerId String
   categoryId String
 
-  provider User     @relation("ProviderMeals", fields: [providerId], references: [id])
+  provider ProviderProfile     @relation("ProviderMeals", fields: [providerId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])
 
   orderItems OrderItem[]

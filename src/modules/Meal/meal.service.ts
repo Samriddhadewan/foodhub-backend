@@ -10,8 +10,18 @@ const createMealIntoDb = async (payload: any, userId: string) => {
     throw new Error("Only providers can create meals");
   }
 
+  const providerProfile = await prisma.providerProfile.findUnique({
+    where : {userId : userId}
+  })
+
+  if(!providerProfile){
+    throw new Error("provider profile not found!")
+  }
+
+
+
   const result = await prisma.meal.create({
-    data: { ...payload, providerId: userId },
+    data: { ...payload, providerId: providerProfile.id },
   });
 
 

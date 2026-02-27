@@ -75,7 +75,69 @@ const createOrder = async (payload: CreateOrderPayload, customerId: string) => {
   return order;
 };
 
+const getMyOrders = async (customerId: string) => {
+  const result = await prisma.order.findMany({
+    where: {
+      userId: customerId,
+    },
+    include: {
+      items: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return result;
+};
+
+const updateOrderStatus = async (
+  orderId: string,
+  status: string,
+  userId: string,
+) => {
+
+  const providerProfile = await prisma.providerProfile.findUnique({
+    where: { userId: userId },
+  });
+
+  console.log(providerProfile?.id)
+   if (!providerProfile) {
+    throw new Error("Provider profile not found");
+  }
+
+  const order = await prisma.order.findFirst({
+    where: {
+      id: orderId,
+      providerId: providerProfile.id,
+    },
+  });
+
+  if (!order) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "order not found");
+  }
+
+  const updateOrder = await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      status: status as OrderStatus,
+    },
+    include: {
+      items: {
+        include: {
+          meal: {
+            select: { id: true, name: true, price: true },
+          },
+        },
+      },
+    },
+  });
+  return updateOrder
+};
 
 export const OrderService = {
   createOrder,
+  getMyOrders,
+  updateOrderStatus,
 };
