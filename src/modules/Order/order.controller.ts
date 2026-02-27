@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { OrderService } from "./order.service";
 import sendResponse from "../../utils/sendResponse";
+import { MealService } from "../Meal/meal.service";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
@@ -70,8 +71,50 @@ const updateOrderStatus = async (req: Request, res: Response) => {
   }
 };
 
+const getAllOrders = async(req : Request , res: Response) => {
+  try {
+    const result = await OrderService.getAllOrders();
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Order status updated successfully",
+      data: result,
+    });
+  } catch (error) {
+     sendResponse(res, {
+      success: false,
+      message: "Order status update failed",
+      statusCode: 400,
+      data: error,
+    });
+  }
+}
+
+const getProviderOrders = async(req : Request, res : Response) => {
+  try {
+    const userId = req.user?.id;
+    const result = await OrderService.getProviderOrders(userId)
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Order status updated successfully",
+      data: result,
+    });
+  } catch (error) {
+     sendResponse(res, {
+      success: false,
+      message: "Order status update failed",
+      statusCode: 400,
+      data: error,
+    });
+  }
+}
+
+
 export const OrderController = {
   createOrder,
   getMyOrders,
   updateOrderStatus,
+  getAllOrders,
+  getProviderOrders
 };

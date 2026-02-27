@@ -95,13 +95,12 @@ const updateOrderStatus = async (
   status: string,
   userId: string,
 ) => {
-
   const providerProfile = await prisma.providerProfile.findUnique({
     where: { userId: userId },
   });
 
-  console.log(providerProfile?.id)
-   if (!providerProfile) {
+  console.log(providerProfile?.id);
+  if (!providerProfile) {
     throw new Error("Provider profile not found");
   }
 
@@ -133,11 +132,74 @@ const updateOrderStatus = async (
       },
     },
   });
-  return updateOrder
+  return updateOrder;
+};
+
+const getAllOrders = async () => {
+  console.log("route hit");
+  const result = await prisma.order.findMany({
+    include: {
+      items: {
+        include: {
+          meal: {
+            select: { id: true, name: true, price: true },
+          },
+        },
+      },
+      provider: {
+        select: {
+          id: true,
+          restaurantName: true,
+          address: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
+const getProviderOrders = async (userId: string) => {
+  const providerProfile = await prisma.providerProfile.findUnique({
+    where: { userId },
+  });
+  if (!providerProfile) {
+    throw new ApiError(StatusCodes.FORBIDDEN, "Provider profile not found");
+  }
+
+  const orders = await prisma.order.findMany({
+    where: {
+      providerId: providerProfile.id,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      items: {
+        include: {
+          meal: {
+            select: {
+              id: true,
+              name: true,
+              price: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return orders;
 };
 
 export const OrderService = {
   createOrder,
   getMyOrders,
   updateOrderStatus,
+  getAllOrders,
+  getProviderOrders,
 };

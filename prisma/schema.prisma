@@ -114,5 +114,5 @@ model OrderItem {
   quantity Int
 
   order Order @relation(fields: [orderId], references: [id])
-  meal  Meal  @relation(fields: [mealId], references: [id])
+  meal  Meal  @relation(fields: [mealId], references: [id] ,onDelete:Cascade )
 }

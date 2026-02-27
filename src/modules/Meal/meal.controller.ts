@@ -4,8 +4,8 @@ import sendResponse from "../../utils/sendResponse";
 
 const createMealIntoDb = async (req: Request, res: Response) => {
   try {
-    // if user is not found 
-    const user =  req.user;
+    // if user is not found
+    const user = req.user;
     if (!user) {
       sendResponse(res, {
         success: false,
@@ -15,8 +15,11 @@ const createMealIntoDb = async (req: Request, res: Response) => {
       });
       return;
     }
-    const result = await MealService.createMealIntoDb(req.body, user?.id as string)
-    
+    const result = await MealService.createMealIntoDb(
+      req.body,
+      user?.id as string,
+    );
+
     sendResponse(res, {
       success: true,
       statusCode: 200,
@@ -34,7 +37,7 @@ const createMealIntoDb = async (req: Request, res: Response) => {
 };
 const getAllMeals = async (req: Request, res: Response) => {
   try {
-    const result = await MealService.getAllMeals()
+    const result = await MealService.getAllMeals();
     sendResponse(res, {
       success: true,
       statusCode: 200,
@@ -50,10 +53,10 @@ const getAllMeals = async (req: Request, res: Response) => {
     });
   }
 };
-const getMealById = async(req: Request, res: Response)=> {
-try {
-      const { mealId } = req.params;
-    const result = await MealService.getMealById(mealId as string)
+const getMealById = async (req: Request, res: Response) => {
+  try {
+    const { mealId } = req.params;
+    const result = await MealService.getMealById(mealId as string);
     sendResponse(res, {
       success: true,
       statusCode: 200,
@@ -68,11 +71,81 @@ try {
       data: error,
     });
   }
-}
+};
 
+const getProviderMeals = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const result = await MealService.getProviderMeals(userId);
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Meal Retrived Successfully",
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      success: false,
+      message: "Order status update failed",
+      statusCode: 400,
+      data: error,
+    });
+  }
+};
+
+const updateMeals = async (req: Request, res: Response) => {
+  try {
+    const mealId = req.params.id;
+    console.log(mealId)
+    const userId = req.user?.id;
+    const updatePayload = req.body;
+    const result = await MealService.updateMeal(
+      mealId as string,
+      userId as string,
+      updatePayload,
+    );
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Meal Retrived Successfully",
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      success: false,
+      message: "Order status update failed",
+      statusCode: 400,
+      data: error,
+    });
+  }
+};
+
+const deleteMeal = async(req : Request, res: Response) => {
+  try {
+    const mealId = req.params.id;
+    const userId = req.user?.id
+    const result = await MealService.deleteMeal(mealId as string, userId as string)
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Meal Deleted Successfully",
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      success: false,
+      message: "Order status update failed",
+      statusCode: 400,
+      data: error,
+    });
+  }
+}
 
 export const MealController = {
   createMealIntoDb,
   getAllMeals,
-  getMealById
+  getMealById,
+  getProviderMeals,
+  updateMeals,
+  deleteMeal
 };
