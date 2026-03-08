@@ -42,6 +42,7 @@ model User {
   @@index([status])
   @@map("users")
   orders Order[]
+  reviews Review[]
 }
 
 model ProviderProfile {
@@ -87,6 +88,8 @@ model Meal {
   category Category @relation(fields: [categoryId], references: [id])
 
   orderItems OrderItem[]
+
+  reviews Review[]
 }
 
 model Order {
@@ -115,4 +118,20 @@ model OrderItem {
 
   order Order @relation(fields: [orderId], references: [id])
   meal  Meal  @relation(fields: [mealId], references: [id] ,onDelete:Cascade )
+}
+
+model Review {
+  id String @id @default(uuid())
+  userId String
+  mealId String
+  rating Int
+  comment String?
+
+  user User @relation(fields: [userId], references: [id])
+  meal Meal @relation(fields: [mealId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  @@unique([userId, mealId], name: "unique_user_meal_review")
 }
